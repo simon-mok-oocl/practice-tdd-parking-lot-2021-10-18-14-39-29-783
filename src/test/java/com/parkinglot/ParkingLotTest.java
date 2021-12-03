@@ -61,4 +61,18 @@ public class ParkingLotTest {
         assertEquals(car1 , returnCar1);
         assertEquals(car2 , returnCar2);
     }
+
+    @Test
+    public void should_return_no_car_when_fetchCar_given_incorrect_ticket()
+    {
+        ParkingLot parkingLot = new ParkingLot(10);
+        Car car1 = new Car("plate 1");
+        Ticket wrongTicket = new Ticket("I am so wrong");
+
+        Ticket ticket1 = parkingLot.parkCar(car1);
+        Car returnCar = parkingLot.fetchCar(wrongTicket);
+
+        assertNull(returnCar);
+
+    }
 }

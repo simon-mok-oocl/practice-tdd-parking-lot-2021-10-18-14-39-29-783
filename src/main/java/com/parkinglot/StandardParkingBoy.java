@@ -27,8 +27,13 @@ public class StandardParkingBoy {
 
     public Car fetchCar(Ticket ticket)
     {
-
-
+        for(ParkingLot lot : lots)
+        {
+            if(lot.isCarExists(ticket))
+            {
+                return lot.fetchCar(ticket);
+            }
+        }
         return null;
     }
 

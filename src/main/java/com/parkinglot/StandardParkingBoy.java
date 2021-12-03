@@ -25,4 +25,8 @@ public class StandardParkingBoy {
         return null;
     }
 
+    public Car fetchCar(Ticket ticket)
+    {
+        return null;
+    }
 }

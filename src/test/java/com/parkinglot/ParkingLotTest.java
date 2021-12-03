@@ -33,4 +33,17 @@ public class ParkingLotTest {
         assertEquals(ticket1.getPlate() , car1.getPlate());
         assertNull(ticket2);
     }
+
+    @Test
+    public void should_return_car_when_fetch_car_with_valid_ticket()
+    {
+        ParkingLot parkingLot = new ParkingLot(1);
+        Car car = new Car("plat 1");
+
+        Ticket ticket = parkingLot.parkCar(car);
+        Car returnCar = parkingLot.fetchCar(ticket);
+
+        assertEquals(car , returnCar);
+
+    }
 }

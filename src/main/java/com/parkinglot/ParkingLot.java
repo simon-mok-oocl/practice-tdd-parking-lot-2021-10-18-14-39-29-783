@@ -16,6 +16,7 @@ public class ParkingLot {
     {
         return this.cars.size() < capacity;
     }
+
     public Ticket parkCar(Car car)
     {
         if(this.checkCapacity())
@@ -27,5 +28,10 @@ public class ParkingLot {
         {
             return null;
         }
+    }
+
+    public Car fetchCar(Ticket ticket)
+    {
+        return null;
     }
 }

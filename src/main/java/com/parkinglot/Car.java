@@ -11,4 +11,10 @@ public class Car {
     {
         return this.plate;
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        return ((Car)obj).getPlate() == this.plate;
+    }
 }

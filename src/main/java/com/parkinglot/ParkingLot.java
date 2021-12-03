@@ -1,6 +1,8 @@
 package com.parkinglot;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ParkingLot {
     private int capacity;
@@ -32,6 +34,12 @@ public class ParkingLot {
 
     public Car fetchCar(Ticket ticket)
     {
+        List<Car> searchCar = cars.stream().filter(car -> car.getPlate() == ticket.getPlate()).collect(Collectors.toList());
+
+        if(searchCar.size() == 1)
+        {
+            return searchCar.get(0);
+        }
         return null;
     }
 }

@@ -44,6 +44,5 @@ public class ParkingLotTest {
         Car returnCar = parkingLot.fetchCar(ticket);
 
         assertEquals(car , returnCar);
-
     }
 }

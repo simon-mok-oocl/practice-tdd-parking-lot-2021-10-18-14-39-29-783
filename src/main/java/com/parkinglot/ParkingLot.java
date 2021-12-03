@@ -21,7 +21,7 @@ public class ParkingLot {
         cars = new ArrayList<Car>();
     }
 
-    private boolean checkCapacity()
+    public boolean checkCapacity()
     {
         return this.cars.size() < capacity;
     }

@@ -59,4 +59,10 @@ public class ParkingLot {
             throw new UnauthorizedCarFetch("Ticket is invalid.");
         }
     }
+
+    public int remainCapacity()
+    {
+        return capacity - cars.size();
+    }
+
 }

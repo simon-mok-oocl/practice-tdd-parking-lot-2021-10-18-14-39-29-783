@@ -19,5 +19,16 @@ public class ParkingLotTest {
         assertEquals(ticket.getPlate() , car.getPlate());
     }
 
+    @Test
+    public void should_return_null_when_partCar_given_full_parkingLot()
+    {
+        ParkingLot parkingLot = new ParkingLot(1);
+        Car car1 = new Car("plat 1");
+        Car car2 = new Car("plate 2");
 
+        Ticket ticket1 = parkingLot.parkCar(car1);
+        Ticket ticket2 = parkingLot.parkCar(car2);
+
+        assertNull(ticket2);
+    }
 }

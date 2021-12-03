@@ -27,6 +27,10 @@ public class StandardParkingBoy {
 
     public Car fetchCar(Ticket ticket)
     {
+        if(! ticket.isValid())
+        {
+            throw new UnauthorizedCarFetch("Unauthorized parking ticket (used).");
+        }
         for(ParkingLot lot : lots)
         {
             if(lot.isCarExists(ticket))

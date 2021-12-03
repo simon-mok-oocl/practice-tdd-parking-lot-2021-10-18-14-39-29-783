@@ -22,6 +22,7 @@ public class StandardParkingBoy {
                 return lot.parkCar(car);
             }
         }
+        
         return null;
     }
 

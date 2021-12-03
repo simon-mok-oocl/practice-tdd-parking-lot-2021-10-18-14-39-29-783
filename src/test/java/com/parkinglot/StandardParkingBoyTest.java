@@ -139,7 +139,7 @@ public class StandardParkingBoyTest {
 
         // when
         Car car3 = new Car("car3");
-        UnauthorizedCarFetch exception = assertThrows(UnauthorizedCarFetch.class , () -> {boy.parkCar(car3);});
+        UnauthorizedCarFetch exception = assertThrows(NoSlotLeftException.class , () -> {boy.parkCar(car3);});
         assertEquals("No available position." , exception.getMessage());
 
     }

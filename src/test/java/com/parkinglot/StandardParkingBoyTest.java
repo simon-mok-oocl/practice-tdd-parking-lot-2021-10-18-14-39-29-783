@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class StandardParkingBoyTest {
     @Test
@@ -93,7 +92,33 @@ public class StandardParkingBoyTest {
 
         // when
         Ticket wrongTicket = new Ticket("wrong ticket");
-        Car returnCar1 = boy.fetchCar(wrongTicket);
 
+
+        // than
+        UnauthorizedCarFetch exception = assertThrows(UnauthorizedCarFetch.class , () -> {boy.fetchCar(wrongTicket);});
+        assertEquals("Unauthorized parking ticket (wrong)." , exception.getMessage());
+    }
+
+    @Test
+    public void should_throw_exception_when_fetchCar_given_used_ticket()
+    {
+        //given
+        ParkingLot lot1 = new ParkingLot(2);
+        ParkingLot lot2 = new ParkingLot();
+        ArrayList<ParkingLot> lots= new ArrayList();
+        lots.add(lot1);
+        lots.add(lot2);
+        StandardParkingBoy boy = new StandardParkingBoy(lots);
+
+        Car car1 = new Car("car1");
+        Ticket ticket1 = boy.parkCar(car1);
+
+        // when
+        boy.fetchCar(ticket1);
+
+
+        // than
+        UnauthorizedCarFetch exception = assertThrows(UnauthorizedCarFetch.class , () -> {boy.fetchCar(ticket1);});
+        assertEquals("Unauthorized parking ticket (used)." , exception.getMessage());
     }
 }

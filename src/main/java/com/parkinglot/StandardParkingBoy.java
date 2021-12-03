@@ -34,7 +34,8 @@ public class StandardParkingBoy {
                 return lot.fetchCar(ticket);
             }
         }
-        return null;
+
+        throw new UnauthorizedCarFetch("Unauthorized parking ticket (wrong).");
     }
 
 }

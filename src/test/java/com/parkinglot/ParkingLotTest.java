@@ -75,4 +75,18 @@ public class ParkingLotTest {
         assertNull(returnCar);
 
     }
+
+    @Test
+    public void should_return_no_car_when_fetchCar_given_invalid_ticket()
+    {
+        ParkingLot parkingLot = new ParkingLot(10);
+        Car car1 = new Car("plate 1");
+
+        Ticket ticket = parkingLot.parkCar(car1);
+        Car returnCar1 = parkingLot.fetchCar(ticket);
+        Car returnCar2 = parkingLot.fetchCar(ticket);
+
+        assertNull(returnCar2);
+
+    }
 }

@@ -36,8 +36,10 @@ public class ParkingLot {
     {
         List<Car> searchCar = cars.stream().filter(car -> car.getPlate() == ticket.getPlate()).collect(Collectors.toList());
 
-        if(searchCar.size() == 1)
+        if(searchCar.size() > 0)
         {
+            cars.remove(searchCar.get(0));
+            ticket.makeInvalid();
             return searchCar.get(0);
         }
         return null;

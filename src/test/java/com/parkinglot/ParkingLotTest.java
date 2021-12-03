@@ -29,6 +29,8 @@ public class ParkingLotTest {
         Ticket ticket1 = parkingLot.parkCar(car1);
         Ticket ticket2 = parkingLot.parkCar(car2);
 
+        assertNotNull(ticket1);
+        assertEquals(ticket1.getPlate() , car1.getPlate());
         assertNull(ticket2);
     }
 }

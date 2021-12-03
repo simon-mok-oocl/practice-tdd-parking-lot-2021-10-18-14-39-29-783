@@ -76,4 +76,24 @@ public class StandardParkingBoyTest {
         assertEquals(car1 , returnCar1);
         assertEquals(car2 , returnCar2);
     }
+
+    @Test
+    public void should_throw_exception_when_fetchCar_given_wrong_ticket()
+    {
+        //given
+        ParkingLot lot1 = new ParkingLot(2);
+        ParkingLot lot2 = new ParkingLot();
+        ArrayList<ParkingLot> lots= new ArrayList();
+        lots.add(lot1);
+        lots.add(lot2);
+        StandardParkingBoy boy = new StandardParkingBoy(lots);
+
+        Car car1 = new Car("car1");
+        Ticket tacket1 = boy.parkCar(car1);
+
+        // when
+        Ticket wrongTicket = new Ticket("wrong ticket");
+        Car returnCar1 = boy.fetchCar(wrongTicket);
+
+    }
 }

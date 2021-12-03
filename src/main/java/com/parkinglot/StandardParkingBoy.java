@@ -17,7 +17,7 @@ public class StandardParkingBoy {
 
         for(ParkingLot lot : lots)
         {
-            if(lot.checkCapacity())
+            if(lot.haveCapacity())
             {
                 return lot.parkCar(car);
             }
@@ -27,6 +27,9 @@ public class StandardParkingBoy {
 
     public Car fetchCar(Ticket ticket)
     {
+
+
         return null;
     }
+
 }

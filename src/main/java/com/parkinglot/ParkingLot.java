@@ -21,14 +21,14 @@ public class ParkingLot {
         cars = new ArrayList<Car>();
     }
 
-    public boolean checkCapacity()
+    public boolean haveCapacity()
     {
         return this.cars.size() < capacity;
     }
 
     public Ticket parkCar(Car car)
     {
-        if(this.checkCapacity())
+        if(this.haveCapacity())
         {
             this.cars.add(car);
             return new Ticket(car.getPlate());
@@ -63,6 +63,11 @@ public class ParkingLot {
     public int remainCapacity()
     {
         return capacity - cars.size();
+    }
+
+    public boolean isCarExists(Ticket ticket)
+    {
+        return cars.stream().filter(car -> car.getPlate() == ticket.getPlate()).collect(Collectors.toList()).size() > 0;
     }
 
 }

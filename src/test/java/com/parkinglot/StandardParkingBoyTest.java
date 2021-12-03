@@ -1,6 +1,5 @@
 package com.parkinglot;
 
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -139,7 +138,7 @@ public class StandardParkingBoyTest {
 
         // when
         Car car3 = new Car("car3");
-        UnauthorizedCarFetch exception = assertThrows(NoSlotLeftException.class , () -> {boy.parkCar(car3);});
+        NoSlotLeftException exception = assertThrows(NoSlotLeftException.class , () -> {boy.parkCar(car3);});
         assertEquals("No available position." , exception.getMessage());
 
     }

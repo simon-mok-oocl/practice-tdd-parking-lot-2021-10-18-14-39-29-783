@@ -22,8 +22,8 @@ public class StandardParkingBoy {
                 return lot.parkCar(car);
             }
         }
-        
-        return null;
+
+        throw new NoSlotLeftException("No available position.");
     }
 
     public Car fetchCar(Ticket ticket)

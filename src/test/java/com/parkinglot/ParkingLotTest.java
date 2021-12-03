@@ -2,7 +2,9 @@ package com.parkinglot;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class ParkingLotTest {
     @Test
@@ -14,5 +16,8 @@ public class ParkingLotTest {
         Ticket ticket = parkingLot.parkCar(car);
 
         assertNotNull(ticket);
+        assertEquals(ticket.getPlate() , car.getPlate());
     }
+
+
 }

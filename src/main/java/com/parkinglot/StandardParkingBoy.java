@@ -15,7 +15,14 @@ public class StandardParkingBoy {
     public Ticket parkCar(Car car)
     {
 
-        return lots.get(0).parkCar(car);
+        for(ParkingLot lot : lots)
+        {
+            if(lot.checkCapacity())
+            {
+                return lot.parkCar(car);
+            }
+        }
+        return null;
     }
 
 }

@@ -43,7 +43,7 @@ public class StandardParkingBoyTest {
 
         assertNotNull(ticket);
         assertEquals(9 , lot2.remainCapacity());
-        assertEquals(0 , lot2.remainCapacity());
+        assertEquals(0 , lot1.remainCapacity());
     }
 
 }

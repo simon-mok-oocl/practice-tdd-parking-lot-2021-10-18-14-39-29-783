@@ -2,9 +2,7 @@ package com.parkinglot;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ParkingLotTest {
     @Test
@@ -20,18 +18,16 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void should_return_null_when_partCar_given_full_parkingLot()
+    public void should_throw_exception_when_partCar_given_full_parkingLot()
     {
         ParkingLot parkingLot = new ParkingLot(1);
         Car car1 = new Car("plat 1");
         Car car2 = new Car("plate 2");
 
         Ticket ticket1 = parkingLot.parkCar(car1);
-        Ticket ticket2 = parkingLot.parkCar(car2);
 
-        assertNotNull(ticket1);
-        assertEquals(ticket1.getPlate() , car1.getPlate());
-        assertNull(ticket2);
+        NoSlotLeftException exception = assertThrows(NoSlotLeftException.class , () -> {parkingLot.parkCar(car2);});
+        assertEquals("No available position." , exception.getMessage());
     }
 
     @Test
@@ -70,23 +66,22 @@ public class ParkingLotTest {
         Ticket wrongTicket = new Ticket("I am so wrong");
 
         Ticket ticket1 = parkingLot.parkCar(car1);
-        Car returnCar = parkingLot.fetchCar(wrongTicket);
+        UnauthorizedCarFetch exception = assertThrows(UnauthorizedCarFetch.class , () -> {parkingLot.fetchCar(wrongTicket);});
 
-        assertNull(returnCar);
-
+        assertEquals("Wrong ticket." , exception.getMessage());
     }
 
     @Test
     public void should_return_no_car_when_fetchCar_given_invalid_ticket()
     {
-        ParkingLot parkingLot = new ParkingLot(10);
+        ParkingLot parkingLot = new ParkingLot();
         Car car1 = new Car("plate 1");
 
         Ticket ticket = parkingLot.parkCar(car1);
         Car returnCar1 = parkingLot.fetchCar(ticket);
-        Car returnCar2 = parkingLot.fetchCar(ticket);
 
-        assertNull(returnCar2);
+        UnauthorizedCarFetch exception = assertThrows(UnauthorizedCarFetch.class , () -> {parkingLot.fetchCar(ticket);});
+        assertEquals("Ticket is invalid." , exception.getMessage());
 
     }
 }

@@ -6,11 +6,18 @@ import java.util.stream.Collectors;
 
 public class ParkingLot {
     private int capacity;
+    private int DEFAULT_MAX_CAPACITY = 10;
     private ArrayList<Car> cars;
 
     public ParkingLot(int maxCapacity)
     {
         this.capacity = maxCapacity;
+        cars = new ArrayList<Car>();
+    }
+
+    public ParkingLot()
+    {
+        this.capacity = this.DEFAULT_MAX_CAPACITY;
         cars = new ArrayList<Car>();
     }
 
@@ -28,20 +35,28 @@ public class ParkingLot {
         }
         else
         {
-            return null;
+            throw new NoSlotLeftException("No available position.");
         }
     }
 
     public Car fetchCar(Ticket ticket)
     {
-        List<Car> searchCar = cars.stream().filter(car -> car.getPlate() == ticket.getPlate()).collect(Collectors.toList());
-
-        if(ticket.isValid() && searchCar.size() > 0)
+        if(ticket.isValid())
         {
-            cars.remove(searchCar.get(0));
-            ticket.makeInvalid();
-            return searchCar.get(0);
+            List<Car> searchCar = cars.stream().filter(car -> car.getPlate() == ticket.getPlate()).collect(Collectors.toList());
+            if( searchCar.size() > 0 ) {
+                cars.remove(searchCar.get(0));
+                ticket.makeInvalid();
+                return searchCar.get(0);
+            }
+            else
+            {
+                throw new UnauthorizedCarFetch("Wrong ticket.");
+            }
         }
-        return null;
+        else
+        {
+            throw new UnauthorizedCarFetch("Ticket is invalid.");
+        }
     }
 }

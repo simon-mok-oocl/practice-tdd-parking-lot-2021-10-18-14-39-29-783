@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 abstract class GenericParkingBoy {
     List<ParkingLot> lots;
 
-    public GenericParkingBoy(ArrayList<ParkingLot> lots)
+    public GenericParkingBoy(List<ParkingLot> lots)
     {
         this.lots = lots;
     }

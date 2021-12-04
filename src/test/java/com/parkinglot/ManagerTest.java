@@ -1,0 +1,227 @@
+package com.parkinglot;
+
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class ManagerTest {
+
+    ///////////////////////////Test manager as standard boy ////////////////////////////////////////////
+    @Test
+    public void should_return_lot1_ticket_when_parkCar_given_lot1_is_available()
+    {
+        // given
+        ParkingLot lot1 = new ParkingLot();
+        ParkingLot lot2 = new ParkingLot();
+        ArrayList<ParkingLot> lots= new ArrayList();
+        lots.add(lot1);
+        lots.add(lot2);
+        Manager manager= new Manager(lots , null);
+        Car car1 = new Car("car1");
+
+        // when
+        Ticket ticket = manager.parkCar(car1);
+
+        // than
+        assertNotNull(ticket);
+        assertEquals(9 , lot1.remainCapacity());
+    }
+
+    @Test
+    public void should_return_lot2_ticket_when_parkCar_given_lot1_is_full()
+    {
+        // given
+        ParkingLot lot1 = new ParkingLot(2);
+        ParkingLot lot2 = new ParkingLot();
+        ArrayList<ParkingLot> lots= new ArrayList();
+        lot1.parkCar(new Car("lot 1 car 1"));
+        lot1.parkCar(new Car("lot 2 car 2"));
+        lots.add(lot1);
+        lots.add(lot2);
+        Manager manager = new Manager(lots , null);
+        Car car1 = new Car("car1");
+
+        // when
+        Ticket ticket = manager.parkCar(car1);
+
+        // than
+        assertNotNull(ticket);
+        assertEquals(9 , lot2.remainCapacity());
+        assertEquals(0 , lot1.remainCapacity());
+    }
+
+    @Test
+    public void should_return_correct_when_fetchCar_given_two_ticket()
+    {
+        //given
+        ParkingLot lot1 = new ParkingLot(2);
+        ParkingLot lot2 = new ParkingLot();
+        ArrayList<ParkingLot> lots= new ArrayList();
+        lots.add(lot1);
+        lots.add(lot2);
+        Manager manager = new Manager(lots , null);
+        Car car1 = new Car("car1");
+        Car car2 = new Car("car2");
+
+        Ticket ticket1 = manager.parkCar(car1);
+        Ticket ticket2 = manager.parkCar(car2);
+
+        //when
+        Car returnCar1 = manager.fetchCar(ticket1);
+        Car returnCar2 = manager.fetchCar(ticket2);
+
+        //than
+        assertEquals(car1 , returnCar1);
+        assertEquals(car2 , returnCar2);
+    }
+
+    @Test
+    public void should_throw_exception_when_fetchCar_given_wrong_ticket()
+    {
+        //given
+        ParkingLot lot1 = new ParkingLot(2);
+        ParkingLot lot2 = new ParkingLot();
+        ArrayList<ParkingLot> lots= new ArrayList();
+        lots.add(lot1);
+        lots.add(lot2);
+        Manager manager = new Manager(lots , null);
+
+        Car car1 = new Car("car1");
+        Ticket tacket1 = manager.parkCar(car1);
+
+        // when
+        Ticket wrongTicket = new Ticket("wrong ticket");
+
+
+        // than
+        UnauthorizedCarFetch exception = assertThrows(UnauthorizedCarFetch.class , () -> {manager.fetchCar(wrongTicket);});
+        assertEquals("Unauthorized parking ticket (wrong)." , exception.getMessage());
+    }
+
+    @Test
+    public void should_throw_exception_when_fetchCar_given_used_ticket()
+    {
+        //given
+        ParkingLot lot1 = new ParkingLot(2);
+        ParkingLot lot2 = new ParkingLot();
+        ArrayList<ParkingLot> lots= new ArrayList();
+        lots.add(lot1);
+        lots.add(lot2);
+        Manager manager = new Manager(lots , null);
+
+        Car car1 = new Car("car1");
+        Ticket ticket1 = manager.parkCar(car1);
+
+        // when
+        manager.fetchCar(ticket1);
+
+        // than
+        UnauthorizedCarFetch exception = assertThrows(UnauthorizedCarFetch.class , () -> {manager.fetchCar(ticket1);});
+        assertEquals("Unauthorized parking ticket (used)." , exception.getMessage());
+    }
+
+    @Test
+    public void should_throuw_except_when_parkCar_given_all_lot_are_full()
+    {
+        //given
+        ParkingLot lot1 = new ParkingLot(1);
+        ParkingLot lot2 = new ParkingLot(1);
+        ArrayList<ParkingLot> lots= new ArrayList();
+        lots.add(lot1);
+        lots.add(lot2);
+        Manager manager = new Manager(lots , null);
+
+        Car car1 = new Car("car1");
+        Car car2 = new Car("car2");
+        manager.parkCar(car1);
+        manager.parkCar(car2);
+
+        // when
+        Car car3 = new Car("car3");
+        NoSlotLeftException exception = assertThrows(NoSlotLeftException.class , () -> {manager.parkCar(car3);});
+        assertEquals("No available position." , exception.getMessage());
+
+    }
+
+    //////////////////////// Test Manager command all 3 types of boys /////////////////////////
+
+    @Test
+    public void should_return_ticket_when_parkCarByBoys_given_boys_with_unused_lot()
+    {
+        // when
+        ParkingLot standardBoyLot1 = new ParkingLot();
+        ParkingLot standardBoyLot2 = new ParkingLot();
+        StandardParkingBoy standardBoy = new StandardParkingBoy(Arrays.asList(standardBoyLot1 , standardBoyLot2));
+
+        ParkingLot smartBoyLot1 = new ParkingLot();
+        ParkingLot smartBoyLot2 = new ParkingLot();
+        SmartParkingBoy smartBoy = new SmartParkingBoy(Arrays.asList(smartBoyLot1 , smartBoyLot2));
+
+
+        ParkingLot superSmartBoyLot1 = new ParkingLot();
+        ParkingLot superSmartBoyLot2 = new ParkingLot();
+        SuperSmartParkingBoy superSmartBoy = new SuperSmartParkingBoy(Arrays.asList(superSmartBoyLot1 , superSmartBoyLot2));
+
+        Car car1 = new Car("car1");
+        Car car2 = new Car("car2");
+        Car car3 = new Car("car3");
+
+        Manager manager = new Manager(null , Arrays.asList(standardBoy , smartBoy , superSmartBoy));
+
+        // when
+        Ticket ticket1 = manager.parkCarByBoy(0 , car1);
+        Ticket ticket2 = manager.parkCarByBoy(1 , car2);
+        Ticket ticket3 = manager.parkCarByBoy(2 , car3);
+
+        // then
+        assertNotNull(ticket1);
+        assertNotNull(ticket2);
+        assertNotNull(ticket2);
+    }
+
+    @Test
+    public void should_park_to_correct_lot_when_parkCarByBoys_with_multle_boys()
+    {
+        // when
+        ParkingLot standardBoyLot1 = new ParkingLot(1);
+        ParkingLot standardBoyLot2 = new ParkingLot();
+        StandardParkingBoy standardBoy = new StandardParkingBoy(Arrays.asList(standardBoyLot1 , standardBoyLot2));
+
+        ParkingLot smartBoyLot1 = new ParkingLot();
+        ParkingLot smartBoyLot2 = new ParkingLot(20);
+        SmartParkingBoy smartBoy = new SmartParkingBoy(Arrays.asList(smartBoyLot1 , smartBoyLot2));
+
+
+        ParkingLot superSmartBoyLot1 = new ParkingLot(30);
+        ParkingLot superSmartBoyLot2 = new ParkingLot();
+        SuperSmartParkingBoy superSmartBoy = new SuperSmartParkingBoy(Arrays.asList(superSmartBoyLot1 , superSmartBoyLot2));
+
+        standardBoyLot1.parkCar(new Car("car"));
+        for(int i = 0 ; i < 10 ; i++)
+        {
+            superSmartBoyLot1.parkCar(new Car("car"));
+        }
+
+        Manager manager = new Manager(null , Arrays.asList(standardBoy , smartBoy , superSmartBoy));
+
+        Car car1 = new Car("car1");
+        Car car2 = new Car("car2");
+        Car car3 = new Car("car3");
+
+        // when
+        manager.parkCarByBoy(0 , car1);
+        manager.parkCarByBoy(1 , car2);
+        manager.parkCarByBoy(2 , car2);
+
+        // than
+        assertEquals(0 , standardBoyLot1.remainCapacity());
+        assertEquals(19 , smartBoyLot2.remainCapacity());
+        assertEquals(9 , superSmartBoyLot2.remainCapacity());
+    }
+    
+}

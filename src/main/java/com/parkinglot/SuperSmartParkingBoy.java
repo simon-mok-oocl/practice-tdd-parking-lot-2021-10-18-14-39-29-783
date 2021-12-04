@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SuperSmartParkingBoy extends GenericParkingBoy{
-    public SuperSmartParkingBoy(ArrayList<ParkingLot> lots)
+    public SuperSmartParkingBoy(List<ParkingLot> lots)
     {
         super(lots);
     }

@@ -19,7 +19,7 @@ public class SuperSmartParkingBoy {
 
         if(!useLot.haveCapacity())
         {
-            throw new NoSlotLeftException("Smart Boy: No available position.");
+            throw new NoSlotLeftException("Super Smart Boy: No available position.");
         }
 
         return useLot.parkCar(car);
@@ -29,7 +29,7 @@ public class SuperSmartParkingBoy {
     {
         if(! ticket.isValid())
         {
-            throw new UnauthorizedCarFetch("Smart Boy: Unauthorized parking ticket (used).");
+            throw new UnauthorizedCarFetch("Super Smart Boy: Unauthorized parking ticket (used).");
         }
         for(ParkingLot lot : lots)
         {
@@ -39,6 +39,6 @@ public class SuperSmartParkingBoy {
             }
         }
 
-        throw new UnauthorizedCarFetch("Smart Boy: Unauthorized parking ticket (wrong).");
+        throw new UnauthorizedCarFetch("Super Smart Boy: Unauthorized parking ticket (wrong).");
     }
 }

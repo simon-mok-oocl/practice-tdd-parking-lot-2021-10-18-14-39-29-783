@@ -102,6 +102,51 @@ public class SuperSmartParkingBoyTest {
 
         // than
         UnauthorizedCarFetch exception = assertThrows(UnauthorizedCarFetch.class , () -> {boy.fetchCar(wrongTicket);});
-        assertEquals("Smart Boy: Unauthorized parking ticket (wrong)." , exception.getMessage());
+        assertEquals("Super Smart Boy: Unauthorized parking ticket (wrong)." , exception.getMessage());
+    }
+
+    @Test
+    public void should_throw_exception_when_fetchCar_given_used_ticket()
+    {
+        //given
+        ParkingLot lot1 = new ParkingLot(2);
+        ParkingLot lot2 = new ParkingLot();
+        ArrayList<ParkingLot> lots= new ArrayList();
+        lots.add(lot1);
+        lots.add(lot2);
+        SuperSmartParkingBoy boy = new SuperSmartParkingBoy(lots);
+
+        Car car1 = new Car("car1");
+        Ticket ticket1 = boy.parkCar(car1);
+
+        // when
+        boy.fetchCar(ticket1);
+
+        // than
+        UnauthorizedCarFetch exception = assertThrows(UnauthorizedCarFetch.class , () -> {boy.fetchCar(ticket1);});
+        assertEquals("Super Smart Boy: Unauthorized parking ticket (used)." , exception.getMessage());
+    }
+
+    @Test
+    public void should_throuw_except_when_parkCar_given_all_lot_are_full()
+    {
+        //given
+        ParkingLot lot1 = new ParkingLot(1);
+        ParkingLot lot2 = new ParkingLot(1);
+        ArrayList<ParkingLot> lots= new ArrayList();
+        lots.add(lot1);
+        lots.add(lot2);
+        SuperSmartParkingBoy boy = new SuperSmartParkingBoy(lots);
+
+        Car car1 = new Car("car1");
+        Car car2 = new Car("car2");
+        boy.parkCar(car1);
+        boy.parkCar(car2);
+
+        // when
+        Car car3 = new Car("car3");
+        NoSlotLeftException exception = assertThrows(NoSlotLeftException.class , () -> {boy.parkCar(car3);});
+        assertEquals("Super Smart Boy: No available position." , exception.getMessage());
+
     }
 }

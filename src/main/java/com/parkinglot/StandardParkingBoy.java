@@ -3,6 +3,7 @@ package com.parkinglot;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StandardParkingBoy {
     List<ParkingLot> lots;
@@ -32,12 +33,15 @@ public class StandardParkingBoy {
         {
             throw new UnauthorizedCarFetch("Unauthorized parking ticket (used).");
         }
-        for(ParkingLot lot : lots)
+
+        List<ParkingLot> useLot = lots
+                .stream()
+                .filter(lot -> lot.isCarExists(ticket))
+                .collect(Collectors.toList());
+
+        if(useLot.size() > 0)
         {
-            if(lot.isCarExists(ticket))
-            {
-                return lot.fetchCar(ticket);
-            }
+            return useLot.get(0).fetchCar(ticket);
         }
 
         throw new UnauthorizedCarFetch("Unauthorized parking ticket (wrong).");

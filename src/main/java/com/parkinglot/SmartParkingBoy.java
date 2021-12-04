@@ -2,6 +2,7 @@ package com.parkinglot;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class SmartParkingBoy {
     ArrayList<ParkingLot> lots;
@@ -12,6 +13,11 @@ public class SmartParkingBoy {
 
     public Ticket parkCar(Car car)
     {
-        return null;
+        ParkingLot useLot = lots
+                .stream()
+                .max(Comparator.comparing(lot -> lot.remainCapacity()))
+                .get();
+
+        return useLot.parkCar(car);
     }
 }

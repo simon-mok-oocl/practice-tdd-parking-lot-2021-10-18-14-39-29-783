@@ -33,4 +33,9 @@ abstract class GenericParkingBoy {
 
         throw new UnauthorizedCarFetch("Unauthorized parking ticket (wrong).");
     }
+
+    public boolean haveCar(Ticket ticket)
+    {
+        return lots.stream().filter(lot -> lot.isCarExists(ticket)).collect(Collectors.toList()).size() > 0;
+    }
 }

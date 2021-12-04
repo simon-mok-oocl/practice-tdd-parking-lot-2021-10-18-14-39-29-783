@@ -24,4 +24,9 @@ public class SuperSmartParkingBoy {
 
         return useLot.parkCar(car);
     }
+
+    public Car fetchCar(Ticket ticket1)
+    {
+        return null;
+    }
 }

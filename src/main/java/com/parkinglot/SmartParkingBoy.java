@@ -6,13 +6,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SmartParkingBoy {
-    ArrayList<ParkingLot> lots;
+public class SmartParkingBoy extends GenericParkingBoy{
     public SmartParkingBoy(ArrayList<ParkingLot> lots)
     {
-        this.lots = lots;
+        super(lots);
     }
 
+    @Override
     public Ticket parkCar(Car car)
     {
         ParkingLot useLot = lots
@@ -22,30 +22,10 @@ public class SmartParkingBoy {
 
         if(!useLot.haveCapacity())
         {
-            throw new NoSlotLeftException("Smart Boy: No available position.");
+            throw new NoSlotLeftException("No available position.");
         }
 
         return useLot.parkCar(car);
-    }
-
-    public Car fetchCar(Ticket ticket)
-    {
-        if(! ticket.isValid())
-        {
-            throw new UnauthorizedCarFetch("Smart Boy: Unauthorized parking ticket (used).");
-        }
-
-        List<ParkingLot> useLot = lots
-                .stream()
-                .filter(lot -> lot.isCarExists(ticket))
-                .collect(Collectors.toList());
-
-        if(useLot.size() > 0)
-        {
-            return useLot.get(0).fetchCar(ticket);
-        }
-
-        throw new UnauthorizedCarFetch("Smart Boy: Unauthorized parking ticket (wrong).");
     }
 
 }

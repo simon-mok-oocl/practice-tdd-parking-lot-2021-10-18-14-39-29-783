@@ -97,7 +97,7 @@ public class SmartParkingBoyTest {
 
         // than
         UnauthorizedCarFetch exception = assertThrows(UnauthorizedCarFetch.class , () -> {boy.fetchCar(wrongTicket);});
-        assertEquals("Smart Boy: Unauthorized parking ticket (wrong)." , exception.getMessage());
+        assertEquals("Unauthorized parking ticket (wrong)." , exception.getMessage());
     }
 
     @Test
@@ -119,7 +119,7 @@ public class SmartParkingBoyTest {
 
         // than
         UnauthorizedCarFetch exception = assertThrows(UnauthorizedCarFetch.class , () -> {boy.fetchCar(ticket1);});
-        assertEquals("Smart Boy: Unauthorized parking ticket (used)." , exception.getMessage());
+        assertEquals("Unauthorized parking ticket (used)." , exception.getMessage());
     }
 
     @Test
@@ -141,7 +141,7 @@ public class SmartParkingBoyTest {
         // when
         Car car3 = new Car("car3");
         NoSlotLeftException exception = assertThrows(NoSlotLeftException.class , () -> {boy.parkCar(car3);});
-        assertEquals("Smart Boy: No available position." , exception.getMessage());
+        assertEquals("No available position." , exception.getMessage());
 
     }
 }

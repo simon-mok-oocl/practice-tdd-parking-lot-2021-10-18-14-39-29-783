@@ -70,4 +70,9 @@ public class ParkingLot {
         return cars.stream().filter(car -> car.getPlate() == ticket.getPlate()).collect(Collectors.toList()).size() > 0;
     }
 
+    public double remainPercentage()
+    {
+        return this.remainCapacity() / this.capacity;
+    }
+
 }

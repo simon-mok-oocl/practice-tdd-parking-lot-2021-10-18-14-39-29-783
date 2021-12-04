@@ -1,6 +1,7 @@
 package com.parkinglot;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class SuperSmartParkingBoy {
     ArrayList<ParkingLot> lots;
@@ -11,6 +12,16 @@ public class SuperSmartParkingBoy {
 
     public Ticket parkCar(Car car)
     {
-        return null;
+        ParkingLot useLot = lots
+                .stream()
+                .max(Comparator.comparing(lot -> lot.remainPercentage()))
+                .get();
+
+        if(!useLot.haveCapacity())
+        {
+            throw new NoSlotLeftException("Smart Boy: No available position.");
+        }
+
+        return useLot.parkCar(car);
     }
 }

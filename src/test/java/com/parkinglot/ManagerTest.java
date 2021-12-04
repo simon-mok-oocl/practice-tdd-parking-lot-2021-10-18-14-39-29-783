@@ -274,5 +274,86 @@ public class ManagerTest {
 	    assertEquals(car5 , returnCar5);
 	    assertEquals(car6 , returnCar6);
     }
-    
+
+    @Test
+    public void should_throw_exception_when_fetchCarByBoy_given_wrong_ticket()
+    {
+        // given
+        ParkingLot standardBoyLot1 = new ParkingLot(1);
+        ParkingLot standardBoyLot2 = new ParkingLot();
+        StandardParkingBoy standardBoy = new StandardParkingBoy(Arrays.asList(standardBoyLot1 , standardBoyLot2));
+
+        ParkingLot smartBoyLot1 = new ParkingLot();
+        ParkingLot smartBoyLot2 = new ParkingLot(20);
+        SmartParkingBoy smartBoy = new SmartParkingBoy(Arrays.asList(smartBoyLot1 , smartBoyLot2));
+
+
+        ParkingLot superSmartBoyLot1 = new ParkingLot(30);
+        ParkingLot superSmartBoyLot2 = new ParkingLot();
+        SuperSmartParkingBoy superSmartBoy = new SuperSmartParkingBoy(Arrays.asList(superSmartBoyLot1 , superSmartBoyLot2));
+
+        Manager manager = new Manager(null , Arrays.asList(standardBoy , smartBoy , superSmartBoy));
+
+        Car car1 = new Car("car1");
+        Car car2 = new Car("car2");
+        Car car3 = new Car("car3");
+        Car car4 = new Car("car4");
+        Car car5 = new Car("car5");
+        Car car6 = new Car("car6");
+
+        Ticket ticket1 = standardBoyLot1.parkCar(car1);
+        Ticket ticket2 = standardBoyLot2.parkCar(car2);
+        Ticket ticket3 = smartBoyLot1.parkCar(car3);
+        Ticket ticket4 = smartBoyLot2.parkCar(car4);
+        Ticket ticket5 = superSmartBoyLot1.parkCar(car5);
+        Ticket ticket6 = superSmartBoyLot2.parkCar(car6);
+
+
+        // than
+        Ticket wrongTicket = new Ticket("wrongTicket");
+        UnauthorizedCarFetch exception = assertThrows(UnauthorizedCarFetch.class , () -> {manager.fetchCarByBoy(wrongTicket);});
+        assertEquals("Unauthorized parking ticket (wrong)." , exception.getMessage());
+    }
+
+    @Test
+    public void should_throw_exception_when_fetchCarByBoy_given_no_space()
+    {
+        // given
+        ParkingLot standardBoyLot1 = new ParkingLot(1);
+        ParkingLot standardBoyLot2 = new ParkingLot();
+        StandardParkingBoy standardBoy = new StandardParkingBoy(Arrays.asList(standardBoyLot1 , standardBoyLot2));
+
+        ParkingLot smartBoyLot1 = new ParkingLot();
+        ParkingLot smartBoyLot2 = new ParkingLot(20);
+        SmartParkingBoy smartBoy = new SmartParkingBoy(Arrays.asList(smartBoyLot1 , smartBoyLot2));
+
+
+        ParkingLot superSmartBoyLot1 = new ParkingLot(30);
+        ParkingLot superSmartBoyLot2 = new ParkingLot();
+        SuperSmartParkingBoy superSmartBoy = new SuperSmartParkingBoy(Arrays.asList(superSmartBoyLot1 , superSmartBoyLot2));
+
+        Manager manager = new Manager(null , Arrays.asList(standardBoy , smartBoy , superSmartBoy));
+
+        Car car1 = new Car("car1");
+        Car car2 = new Car("car2");
+        Car car3 = new Car("car3");
+
+        Ticket ticket1 = standardBoyLot1.parkCar(car1);
+        Ticket ticket2 = smartBoyLot1.parkCar(car2);
+        Ticket ticket3 = superSmartBoyLot1.parkCar(car3);
+
+        manager.fetchCarByBoy(ticket1);
+        manager.fetchCarByBoy(ticket2);
+        manager.fetchCarByBoy(ticket3);
+
+        // than
+        UnauthorizedCarFetch exception = assertThrows(UnauthorizedCarFetch.class , () -> {manager.fetchCarByBoy(ticket1);});
+        assertEquals("Unauthorized parking ticket (used)." , exception.getMessage());
+
+       exception = assertThrows(UnauthorizedCarFetch.class , () -> {manager.fetchCarByBoy(ticket2);});
+        assertEquals("Unauthorized parking ticket (used)." , exception.getMessage());
+
+        exception = assertThrows(UnauthorizedCarFetch.class , () -> {manager.fetchCarByBoy(ticket2);});
+        assertEquals("Unauthorized parking ticket (used)." , exception.getMessage());
+    }
 }

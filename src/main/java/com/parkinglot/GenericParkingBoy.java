@@ -26,7 +26,7 @@ abstract class GenericParkingBoy {
                 .filter(lot -> lot.isCarExists(ticket))
                 .collect(Collectors.toList());
 
-        if(useLot.size() > 0)
+        if( useLot.size() > 0)  // lots may be null for manager.
         {
             return useLot.get(0).fetchCar(ticket);
         }

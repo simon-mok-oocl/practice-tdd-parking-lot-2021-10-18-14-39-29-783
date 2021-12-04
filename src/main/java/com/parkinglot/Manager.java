@@ -21,12 +21,18 @@ class Manager extends StandardParkingBoy {
 
     public Car fetchCarByBoy(Ticket ticket)
     {
+        if(!ticket.isValid())
+        {
+            throw new UnauthorizedCarFetch("Unauthorized parking ticket (used).");
+        }
+
         List<GenericParkingBoy> useBoy = boys.stream().filter(boy -> boy.haveCar(ticket)).collect(Collectors.toList());
 
         if(useBoy.size() > 0)
         {
             return useBoy.get(0).fetchCar(ticket);
         }
-        return null;
+
+        throw new UnauthorizedCarFetch("Unauthorized parking ticket (wrong).");
     }
 }

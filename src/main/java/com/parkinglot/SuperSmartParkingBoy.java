@@ -25,8 +25,20 @@ public class SuperSmartParkingBoy {
         return useLot.parkCar(car);
     }
 
-    public Car fetchCar(Ticket ticket1)
+    public Car fetchCar(Ticket ticket)
     {
-        return null;
+        if(! ticket.isValid())
+        {
+            throw new UnauthorizedCarFetch("Smart Boy: Unauthorized parking ticket (used).");
+        }
+        for(ParkingLot lot : lots)
+        {
+            if(lot.isCarExists(ticket))
+            {
+                return lot.fetchCar(ticket);
+            }
+        }
+
+        throw new UnauthorizedCarFetch("Smart Boy: Unauthorized parking ticket (wrong).");
     }
 }

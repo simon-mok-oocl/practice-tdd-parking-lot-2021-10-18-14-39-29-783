@@ -18,6 +18,11 @@ public class SmartParkingBoy {
                 .max(Comparator.comparing(lot -> lot.remainCapacity()))
                 .get();
 
+        if(!useLot.haveCapacity())
+        {
+            throw new NoSlotLeftException("Smart Boy: No available position.");
+        }
+
         return useLot.parkCar(car);
     }
 

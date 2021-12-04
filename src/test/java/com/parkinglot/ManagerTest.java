@@ -356,4 +356,52 @@ public class ManagerTest {
         exception = assertThrows(UnauthorizedCarFetch.class , () -> {manager.fetchCarByBoy(ticket2);});
         assertEquals("Unauthorized parking ticket (used)." , exception.getMessage());
     }
+
+    @Test
+    public void should_throw_exception_when_parkCarByBoy_given_all_lot_full()
+    {
+        // given
+        ParkingLot standardBoyLot1 = new ParkingLot(1);
+        ParkingLot standardBoyLot2 = new ParkingLot(1);
+        StandardParkingBoy standardBoy = new StandardParkingBoy(Arrays.asList(standardBoyLot1 , standardBoyLot2));
+
+        ParkingLot smartBoyLot1 = new ParkingLot(1);
+        ParkingLot smartBoyLot2 = new ParkingLot(1);
+        SmartParkingBoy smartBoy = new SmartParkingBoy(Arrays.asList(smartBoyLot1 , smartBoyLot2));
+
+
+        ParkingLot superSmartBoyLot1 = new ParkingLot(1);
+        ParkingLot superSmartBoyLot2 = new ParkingLot(1);
+        SuperSmartParkingBoy superSmartBoy = new SuperSmartParkingBoy(Arrays.asList(superSmartBoyLot1 , superSmartBoyLot2));
+
+        Manager manager = new Manager(null , Arrays.asList(standardBoy , smartBoy , superSmartBoy));
+
+        Car car1 = new Car("car1");
+        Car car2 = new Car("car2");
+        Car car3 = new Car("car3");
+        Car car4 = new Car("car4");
+        Car car5 = new Car("car5");
+        Car car6 = new Car("car6");
+
+        Ticket ticket1 = standardBoyLot1.parkCar(car1);
+        Ticket ticket2 = standardBoyLot2.parkCar(car2);
+        Ticket ticket3 = smartBoyLot1.parkCar(car3);
+        Ticket ticket4 = smartBoyLot2.parkCar(car4);
+        Ticket ticket5 = superSmartBoyLot1.parkCar(car5);
+        Ticket ticket6 = superSmartBoyLot2.parkCar(car6);
+
+        // than
+        Car car7 = new Car("car7");
+        Car car8 = new Car("car8");
+        Car car9 = new Car("car9");
+
+        NoSlotLeftException exception = assertThrows(NoSlotLeftException.class , () -> {manager.parkCarByBoy(0 , car7);});
+        assertEquals("No available position." , exception.getMessage());
+
+        exception = assertThrows(NoSlotLeftException.class , () -> {manager.parkCarByBoy(1 , car8);});
+        assertEquals("No available position." , exception.getMessage());
+
+        exception = assertThrows(NoSlotLeftException.class , () -> {manager.parkCarByBoy(2 , car9);});
+        assertEquals("No available position." , exception.getMessage());
+    }
 }
